@@ -9,9 +9,12 @@ def home():
 
 @app.route('/menu')
 def menu():
-    today = Menu.query.first()
+    today = Menu.query.all()
     if today:
-        body = { "today_special": today.name, "price":"10" }
+        body = []
+        for obj in today:
+            body += [{ "today_special": obj.name, "price":obj.price, "quantity":obj.quantity }]
+
         status = 200
     else:
         body = { "error": "Sorry, the service is not available today." }

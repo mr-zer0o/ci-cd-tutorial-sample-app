@@ -5,10 +5,9 @@ node{
     stage("flask build"){
         sh '''
 
-
         export WORKSPACE=`pwd`
-        virtualenv venv1
-        . $WORKSPACE/venv1/bin/activate
+        virtualenv venv21
+        . $WORKSPACE/venv21/bin/activate
         pip install -r requirements.txt
         flask db upgrade
         python seed.py
@@ -17,12 +16,9 @@ node{
     }
     stage("Test code"){
         sh '''
-            . $WORKSPACE/venv1/bin/activate
+            . $WORKSPACE/venv21/bin/activate
             python -m unittest discover
         '''
-    }
-    stage("SonarQube Analysis"){
-        sh 'echo N/A'
     }
 
     stage("Build docker Image"){
@@ -39,14 +35,16 @@ node{
             result=$(docker ps -f name=myapp -q -a)
             if [[ -n "$result" ]]; then
               docker ps -f name=myapp -q -a | xargs --no-run-if-empty docker container stop | xargs docker container rm
+              docker images -a | grep "zatch/myapp" | awk '{print $3}' | xargs docker rmi -f
             else
               echo "No such container"
             fi
+
         '''
         def dockerRun = 'docker run -p 8000:8000 -d --name=myapp zatch/myapp:1.0.0'
         sshagent(['dev-server']) {
-            sh "ssh -o StrictHostKeyChecking=no ubuntu@3.133.133.82 ${dockerContainerCheck}"
-            sh "ssh -o StrictHostKeyChecking=no ubuntu@3.133.133.82 ${dockerRun}"
+            sh "ssh -o StrictHostKeyChecking=no ubuntu@3.141.25.1 ${dockerContainerCheck}"
+            sh "ssh -o StrictHostKeyChecking=no ubuntu@3.141.25.1 ${dockerRun}"
         }
 
     }
