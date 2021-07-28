@@ -47,8 +47,8 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.mimetype, 'application/json')
         body = json.loads(response.data)
-        self.assertTrue('today_special' in body)
-        self.assertEqual(body['today_special'], test_name)
+        self.assertTrue('today_special' in body[0])
+        self.assertEqual(body[0]['today_special'], test_name)
 
 if __name__ == "__main__":
     unittest.main()
