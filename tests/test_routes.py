@@ -39,10 +39,10 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_menu_item(self):
-        # test_name = "test"
-        # test_item = Menu(name=test_name,price="")
-        # db.session.add(test_item)
-        # db.session.commit()
+        test_name = "chilli potatos"
+        test_item = Menu(name=test_name,price="250",quantity="200gm")
+        db.session.add(test_item)
+        db.session.commit()
         response = self.app.get('/menu', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.mimetype, 'application/json')
