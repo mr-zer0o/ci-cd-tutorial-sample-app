@@ -7,17 +7,17 @@ node{
 
         export WORKSPACE=`pwd`
         virtualenv venv21
-        . $WORKSPACE/venv21/bin/activate
+        . $WORKSPACE/venv22/bin/activate
         pip install -r requirements.txt
         flask db upgrade
-        python seed.py
 
         '''
     }
     stage("Test code"){
         sh '''
-            . $WORKSPACE/venv21/bin/activate
+            . $WORKSPACE/venv22/bin/activate
             python -m unittest discover
+            python seed.py
         '''
     }
 
