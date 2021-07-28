@@ -13,7 +13,7 @@ def menu():
     if today:
         body = []
         for obj in today:
-            body += [{ "today_special": obj.name, "price":obj.price, "quantity":obj.quantity }]
+            body += [{ "today_special": obj.name, "price":obj.price, "quantity":obj.quantity,"temp1":"val1" }]
 
         status = 200
     else:
